@@ -1,7 +1,7 @@
-<script setup>
+<script>
 // All this is vue3 syntax we need to migrate it back to vue2
 // I'll do this one and I'll leave the rest to you
-import { ref } from 'vue';
+
 import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
 import BreezeDropdown from '@/Components/Dropdown.vue';
 import BreezeDropdownLink from '@/Components/DropdownLink.vue';
@@ -9,6 +9,18 @@ import BreezeNavLink from '@/Components/NavLink.vue';
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue';
 
+export default {
+    components: { BreezeApplicationLogo,
+
+ BreezeDropdown,
+ BreezeDropdownLink,
+ BreezeNavLink,
+ BreezeResponsiveNavLink,
+ Link},
+    data: () => ({
+        showingNavigationDropdown: false,
+    })
+}
 
 const showingNavigationDropdown = ref(false);
 </script>
