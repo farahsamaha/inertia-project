@@ -7,10 +7,15 @@ require('./bootstrap')
 InertiaProgress.init({ color: '#4B5563' });
 Vue.use(plugin)
 
+const el = document.getElementById('app')
+
+Vue.prototype.route = route
 new Vue({
     render: h => h(App, {
-        initialPage: JSON.parse(el.dataset.page),
-        resolveComponent: name => require(`./Pages/${name}`),
+        props: {
+            initialPage: JSON.parse(el.dataset.page),
+            resolveComponent: name => require(`./Pages/${name}`).default,
+        }
     })
-}).$mount('#app')
+}).$mount(el)
 
