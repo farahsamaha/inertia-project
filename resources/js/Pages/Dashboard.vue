@@ -1,6 +1,13 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue';
+
+export default {
+  components: {
+    BreezeAuthenticatedLayout,
+    Head
+  }
+}
 </script>
 
 <template>
