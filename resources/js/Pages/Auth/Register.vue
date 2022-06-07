@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import BreezeButton from '@/Components/Button.vue';
 import BreezeGuestLayout from '@/Layouts/Guest.vue';
 import BreezeInput from '@/Components/Input.vue';
@@ -6,19 +6,34 @@ import BreezeLabel from '@/Components/Label.vue';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue';
 
-const form = useForm({
+export default {
+  components: {
+    BreezeButton,
+    BreezeGuestLayout,
+    BreezeInput,
+    BreezeLabel,
+    BreezeValidationErrors,
+     Head,
+     Link
+  },
+data: () => ({
+    //  form :useForm({ email: ""})
+form : {
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
-    terms: false,
-});
+    terms: false,}
+  }),
+  methods: {
+    submit() {
+      return form.post(route('register'), {
+        onFinish: () => form.reset('password', 'password_confirmation')
+    })
+    }
+  }
+}
 
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-};
 </script>
 
 <template>

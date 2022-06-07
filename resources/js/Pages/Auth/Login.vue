@@ -7,22 +7,38 @@ import BreezeLabel from '@/Components/Label.vue';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue';
 
-defineProps({
-    canResetPassword: Boolean,
-    status: String,
-});
 
-const form = useForm({
-    email: '',
+export default {
+  components: {
+    BreezeButton,
+    BreezeCheckbox,
+    BreezeGuestLayout,
+    BreezeInput,
+    BreezeLabel,
+    BreezeValidationErrors,
+    Head,
+    Link
+    //  useForm
+  },
+   data: () => ({
+    //  form :useForm({ email: ""})
+    form : {  email: '',
     password: '',
-    remember: false
-});
-
-const submit = () => {
-    form.post(route('login'), {
+    remember: false}
+  }),
+  methods: {
+    submit() {
+      returnform.post(route('login'), {
         onFinish: () => form.reset('password'),
     });
-};
+    },
+  },
+  props: {
+      canResetPassword: Boolean,
+    status: String,
+  },
+}
+
 </script>
 
 <template>
