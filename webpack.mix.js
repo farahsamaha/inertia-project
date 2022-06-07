@@ -16,7 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [require('autoprefixer')])
     .alias({
         '@': 'resources/js',
-    });
+   }).webpackConfig(require('./webpack.config'));
 
 if (mix.inProduction()) {
     mix.version();
