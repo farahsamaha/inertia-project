@@ -1,7 +1,14 @@
-<script setup>
+<script>
 import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/inertia-vue';
 import '@inertiajs/inertia-vue';
+
+export default {
+  components: {
+   BreezeApplicationLogo,
+     Link
+  }
+}
 </script>
 
 <template>
