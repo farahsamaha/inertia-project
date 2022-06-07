@@ -22,8 +22,6 @@ export default {
     showingNavigationDropdown: false,
   }),
 };
-
-const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
