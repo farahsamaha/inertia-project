@@ -1,5 +1,7 @@
-<script setup>
-defineProps(['message']);
+<script>
+export default {
+ props:  ['message']
+ }
 </script>
 
 <template>

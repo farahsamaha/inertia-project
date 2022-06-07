@@ -1,10 +1,28 @@
-<script setup>
-import { computed } from 'vue';
-import { usePage } from '@inertiajs/inertia-vue';
+<script>
+// import { computed } from 'vue';
+// import { usePage } from '@inertiajs/inertia-vue';
 
-const errors = computed(() => usePage().props.value.errors);
+export default {
 
-const hasErrors = computed(() => Object.keys(errors.value).length > 0);
+components:{
+// usePage
+// computed
+},
+  computed: {
+      errors:{
+  usePage() {
+      return props.value.errors
+    }},
+     hasErrors:{
+        hasErrors(){
+         return Object.keys(errors.value).length > 0
+        }
+     }
+  }
+ }
+// const errors = computed(() => usePage().props.value.errors);
+
+// const hasErrors = computed(() => Object.keys(errors.value).length > 0);
 </script>
 
 <template>

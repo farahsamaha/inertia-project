@@ -1,6 +1,11 @@
-<script setup>
-// import { Link } from '@inertiajs/inertia-vue3';
+<script>
+import { Link } from '@inertiajs/inertia-vue';
 import '@inertiajs/inertia-vue';
+export default {
+components: {
+    Link
+}}
+
 </script>
 
 <template>

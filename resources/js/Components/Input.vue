@@ -1,17 +1,20 @@
-<script setup>
-import { onMounted, ref } from 'vue';
+<script>
+// import { onMounted, ref } from 'vue';
+export default {
+ data: () => ({
+    input:null
+  }),
 
-defineProps(['modelValue']);
+emits:['update:modelValue'],
 
-defineEmits(['update:modelValue']);
+props:  ['modelValue'],
 
-const input = ref(null);
-
-onMounted(() => {
-    if (input.value.hasAttribute('autofocus')) {
-        input.value.focus();
+mounted(){
+  if (input.value.hasAttribute('autofocus')) {
+        input.value.focus()
     }
-});
+}
+}
 </script>
 
 <template>

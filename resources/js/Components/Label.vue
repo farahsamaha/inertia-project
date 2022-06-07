@@ -1,5 +1,7 @@
-<script setup>
-defineProps(['value']);
+<script>
+export default {
+ props:  ['value']
+ }
 </script>
 
 <template>
