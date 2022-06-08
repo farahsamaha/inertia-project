@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-card>Test</v-card>
+        <v-card>Tesst</v-card>
       </v-col>
     </v-row>
   </v-container>

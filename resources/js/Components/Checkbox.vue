@@ -2,10 +2,6 @@
 // import { computed } from 'vue';
 
 export default {
-//     components:{
-// computed
-// },
-
 props: {
    checked: {
         type: [Array, Boolean],

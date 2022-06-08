@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-import en from 'vuetify/lib/locale/en'
 
 Vue.use(Vuetify)
 
@@ -39,9 +38,5 @@ export default new Vuetify({
           accent: '#EC407A'
         }
       }
-    },
-    lang: {
-      locales: { en },
-      current: 'en'
     }
   })

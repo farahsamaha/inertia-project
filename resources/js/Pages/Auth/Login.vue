@@ -64,7 +64,7 @@ export default {
 
             <div class="block mt-4">
                 <label class="flex items-center">
-                    <BreezeCheckbox name="remember" v-model:checked="form.remember" />
+                    <BreezeCheckbox name="remember"/>
                     <span class="ml-2 text-sm text-gray-600">Remember me</span>
                 </label>
             </div>
