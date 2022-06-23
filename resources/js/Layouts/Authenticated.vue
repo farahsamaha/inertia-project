@@ -1,8 +1,4 @@
 <script>
-// All this is vue3 syntax we need to migrate it back to vue2
-// I'll do this one and I'll leave the rest to you
-
-import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
 import BreezeNavLink from "@/Components/NavLink.vue";
@@ -11,7 +7,6 @@ import { Link } from "@inertiajs/inertia-vue";
 
 export default {
   components: {
-    BreezeApplicationLogo,
     BreezeDropdown,
     BreezeDropdownLink,
     BreezeNavLink,
@@ -35,7 +30,7 @@ export default {
               <!-- Logo -->
               <div class="shrink-0 flex items-center">
                 <Link :href="route('dashboard')">
-                  <BreezeApplicationLogo class="block h-9 w-auto" />
+                  <v-btn class="block h-9 w-auto"></v-btn>
                 </Link>
               </div>
 

@@ -1,13 +1,6 @@
 <script>
-// import { computed } from 'vue';
-// import { usePage } from '@inertiajs/inertia-vue';
 
 export default {
-
-components:{
-// usePage
-// computed
-},
   computed: {
       errors:{
   usePage() {

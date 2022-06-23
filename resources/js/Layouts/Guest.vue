@@ -1,26 +1,54 @@
+<template>
+  <v-app>
+    <v-app-bar
+      app
+      flat
+      color="background"
+      height="100"
+      hide-on-scroll
+    >
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <div class="d-flex align-center">
+              <Link
+                class="d-flex"
+                :href="route('welcome')"
+              >
+              </Link>
+              <v-spacer />
+              <!-- Place this tag where you want the button to render. -->
+              <v-link
+                text
+                rounded
+                class="mr-4"
+                :href="route('register')"
+              >Register</v-link>
+              <v-link
+                text
+                rounded
+                :href="route('login')"
+              >Login</v-link>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-app-bar>
+
+    <v-main class="mb-12">
+      <slot />
+    </v-main>
+
+    <footer-sec/>
+  </v-app>
+</template>
+
 <script>
-import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
-import { Link } from '@inertiajs/inertia-vue';
-import '@inertiajs/inertia-vue';
+import FooterSec from '@/Components/FooterSec.vue'
 
 export default {
   components: {
-   BreezeApplicationLogo,
-     Link
+    FooterSec
   }
 }
 </script>
-
-<template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div>
-            <Link href="/">
-                <BreezeApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
-            </Link>
-        </div>
-
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <slot />
-        </div>
-    </div>
-</template>

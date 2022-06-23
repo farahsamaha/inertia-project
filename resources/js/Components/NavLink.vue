@@ -1,11 +1,9 @@
 <script>
-// import { computed } from 'vue';
 import { Link } from '@inertiajs/inertia-vue';
 
 export default {
 components:{
-Link,
-// computed
+Link
 },
  props: ['href', 'active'],
  }

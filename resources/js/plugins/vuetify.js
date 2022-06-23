@@ -1,5 +1,4 @@
 // src/plugins/vuetify.js
-
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
@@ -10,14 +9,6 @@ const opts = {}
 
 // export default new Vuetify(opts)
 export default new Vuetify({
-    icons: {
-      iconfont: 'mdiSvg'
-    },
-    theme: {
-      dark: true,
-      options: {
-        customProperties: true
-      },
       themes: {
         dark: {
           appBar: '#2a006c',
@@ -38,5 +29,4 @@ export default new Vuetify({
           accent: '#EC407A'
         }
       }
-    }
   })
