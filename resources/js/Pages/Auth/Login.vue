@@ -1,83 +1,136 @@
-<script setup>
-import BreezeButton from '@/Components/Button.vue';
-import BreezeCheckbox from '@/Components/Checkbox.vue';
-import BreezeGuestLayout from '@/Layouts/Guest.vue';
-import BreezeInput from '@/Components/Input.vue';
-import BreezeLabel from '@/Components/Label.vue';
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
-import { Head, Link, useForm } from '@inertiajs/inertia-vue';
+<template>
+  <authentication-card>
+    <div>
+      <v-card-title class="text-h4 justify-center blue--text">
+        {{ "Login" }}
+      </v-card-title>
+      <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+        {{ status }}
+      </div>
+      <form class="mx-3" @submit.prevent="submit">
+        <v-row>
+          <v-col cols="12">
+            <v-text-field
+              v-model="form.email"
+              name="email"
+              :label="'user.email'"
+              type="email"
+              hide-details="auto"
+              :error-messages="errors['email']"
+              outlined
+              required
+              class="mx-6 my-3"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="form.password"
+              name="password"
+              type="password"
+              :label="'user.password'"
+              hide-details="auto"
+              autocomplete="current-password"
+              :error-messages="errors['password']"
+              outlined
+              required
+              color="#000000"
+              class="mx-6 my-3"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-checkbox
+              v-model="form.remeber"
+              label="Remember me"
+              value="on"
+              class="mx-7"
+            />
+            <!-- </v-col>
+              <v-col cols="12" class=" d-flex align-center"> -->
+            <v-container>
+              <v-btn
+                :disabled="form.processing"
+                :loading="form.processing"
+                type="submit"
+                class="blue accent-4 white--text ml-5"
+              >
+                {{ "login" }}
+              </v-btn>
+              <inertia-link
+                v-if="canResetPassword"
+                :href="route('password.request')"
+                class="v-btn v-btn--text v-size--small blue--text"
+              >
+                {{ "forgot password?" }}
+              </inertia-link>
+            </v-container>
+          </v-col></v-row
+        >
+        <div class="flex px-10 py-4 bg-gray-100 border-t border-gray-100">
+          <loading-button
+            :loading="form.processing"
+            class="btn-indigo ml-auto"
+            type="submit"
+          ></loading-button>
+        </div>
+      </form>
+    </div>
+  </authentication-card>
+</template>
 
+<script>
+import AuthenticationCard from "@/components/Auth/AuthenticationCard";
+import AuthenticationCardLogo from "@/components/Auth/AuthenticationCardLogo";
+import GuestLayout from "@/Layouts/GuestLayout";
+import LoadingButton from "@/components/partials/LoadingButton.vue";
 
 export default {
+  name: "LoginView",
+
   components: {
-    BreezeButton,
-    BreezeCheckbox,
-    BreezeGuestLayout,
-    BreezeInput,
-    BreezeLabel,
-    BreezeValidationErrors,
-    Head,
-    Link
-    //  useForm
+    AuthenticationCard,
+    AuthenticationCardLogo,
+    LoadingButton,
   },
-   data: () => ({
-    //  form :useForm({ email: ""})
-    form : {  email: '',
-    password: '',
-    remember: false}
-  }),
-  methods: {
-    submit() {
-      returnform.post(route('login'), {
-        onFinish: () => form.reset('password'),
-    });
+  layout: GuestLayout,
+  props: {
+    canResetPassword: Boolean,
+    status: {
+      type: String,
+      default: "",
     },
   },
-  props: {
-      canResetPassword: Boolean,
-    status: String,
+
+  data() {
+    return {
+      form: this.$inertia.form({
+        email: "",
+        password: "",
+        remember: false,
+      }),
+    };
   },
-}
 
+  computed: {
+    errors() {
+      return this.$page.props.errors;
+    },
+
+    hasErrors() {
+      return Object.keys(this.errors).length > 0;
+    },
+  },
+
+  methods: {
+    submit() {
+      this.form
+        .transform((data) => ({
+          ...data,
+          remember: this.form.remember ? "on" : "",
+        }))
+        .post(this.route("login"), {
+          onFinish: () => this.form.reset("password"),
+        });
+    },
+  },
+};
 </script>
-
-<template>
-    <BreezeGuestLayout>
-        <Head title="Log in" />
-
-        <BreezeValidationErrors class="mb-4" />
-
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <BreezeLabel for="email" value="Email" />
-                <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <BreezeLabel for="password" value="Password" />
-                <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <BreezeCheckbox name="remember"/>
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Forgot your password?
-                </Link>
-
-                <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </BreezeButton>
-            </div>
-        </form>
-    </BreezeGuestLayout>
-</template>
