@@ -1,77 +1,146 @@
+<template>
+  <authentication-card>
+    <v-card-title class="text-h4 justify-center blue--text">
+      Register
+    </v-card-title>
+    <v-form @submit.prevent="submit">
+      <v-row>
+        <v-col cols="12">
+          <v-text-field
+            v-model="form.name"
+            name="name"
+            label="Name"
+            hide-details="auto"
+            autocomplete="name"
+            :error-messages="errors['name']"
+            outlined
+            required
+            class="mx-6 my-1"
+          />
+        </v-col>
+        <v-col cols="12">
+          <v-text-field
+            v-model="form.email"
+            name="email"
+            label="Email"
+            type="email"
+            hide-details="auto"
+            autocomplete="email"
+            :error-messages="errors['email']"
+            outlined
+            required
+            class="mx-6 my-1"
+          />
+        </v-col>
+        <v-col cols="12">
+          <v-text-field
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="show1 = !show1"
+            :type="show1 ? 'text' : 'password'"
+            v-model="form.password"
+            name="password"
+            label="Password"
+            hide-details="auto"
+            autocomplete="new-password"
+            :error-messages="errors['password']"
+            outlined
+            required
+            class="mx-6 my-1"
+          />
+        </v-col>
+        <v-col cols="12">
+          <v-text-field
+            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="show2 = !show2"
+            v-model="form.password_confirmation"
+            :type="show2 ? 'text' : 'password'"
+            name="password"
+            label="Confirm Password"
+            hide-details="auto"
+            autocomplete="new-password"
+            outlined
+            required
+            class="mx-6 my-1"
+          />
+        </v-col>
+        <!-- <v-col
+          cols="12"
+        >
+          <v-checkbox
+            v-model="form.terms"
+            :error-messages="errors['terms']"
+             class="v-btn v-btn--text v-size--small black--text"
+          >
+            I agree to the
+             Terms of Service and
+            Privacy Policy
+          </v-checkbox>
+        </v-col> -->
+        <v-col cols="12" class="d-flex align-center">
+          <v-btn
+            class="mx-6 my-1 white--text"
+            color="blue accent-4"
+            :disabled="form.processing"
+            :loading="form.processing"
+            @click="submit"
+          >
+            Register
+          </v-btn>
+          <inertia-link
+            :href="route('login')"
+            class="v-btn v-btn--text v-size--small blue--text"
+          >
+            Already registered?
+          </inertia-link>
+        </v-col>
+      </v-row>
+    </v-form>
+  </authentication-card>
+</template>
+
 <script>
-import BreezeButton from '@/Components/Button.vue';
-import BreezeGuestLayout from '@/Layouts/Guest.vue';
-import BreezeInput from '@/Components/Input.vue';
-import BreezeLabel from '@/Components/Label.vue';
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
-import { Head, Link, useForm } from '@inertiajs/inertia-vue';
+import AuthenticationCard from "@/components/Auth/AuthenticationCard";
+import AuthenticationCardLogo from "@/components/Auth/AuthenticationCardLogo";
+import GuestLayout from "@/Layouts/GuestLayout";
 
 export default {
   components: {
-    BreezeButton,
-    BreezeGuestLayout,
-    BreezeInput,
-    BreezeLabel,
-    BreezeValidationErrors,
-     Head,
-     Link
+    AuthenticationCard,
+    AuthenticationCardLogo,
   },
-data: () => ({
-    //  form :useForm({ email: ""})
-form : {
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-    terms: false,}
-  }),
+
+  layout: GuestLayout,
+
+  data() {
+    return {
+      show1: false,
+      show2: false,
+      form: this.$inertia.form({
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        terms: false,
+      }),
+    };
+  },
+
+  computed: {
+    errors() {
+      return this.$page.props.errors;
+    },
+
+    hasErrors() {
+      return Object.keys(this.errors).length > 0;
+    },
+  },
+
   methods: {
     submit() {
-      return form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation')
-    })
-    }
-  }
-}
-
+      this.form.post(this.route("register"), {
+        onFinish: () => this.form.reset("password", "password_confirmation"),
+      });
+    },
+  },
+};
 </script>
-
-<template>
-    <BreezeGuestLayout>
-        <Head title="Register" />
-
-        <BreezeValidationErrors class="mb-4" />
-
-        <form @submit.prevent="submit">
-            <div>
-                <BreezeLabel for="name" value="Name" />
-                <BreezeInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
-            </div>
-
-            <div class="mt-4">
-                <BreezeLabel for="email" value="Email" />
-                <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <BreezeLabel for="password" value="Password" />
-                <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4">
-                <BreezeLabel for="password_confirmation" value="Confirm Password" />
-                <BreezeInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Already registered?
-                </Link>
-
-                <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </BreezeButton>
-            </div>
-        </form>
-    </BreezeGuestLayout>
-</template>

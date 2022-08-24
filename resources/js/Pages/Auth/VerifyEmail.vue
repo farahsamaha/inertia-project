@@ -1,43 +1,8 @@
-<script>
-import { computed } from "vue";
-import BreezeButton from "@/Components/Button.vue";
-import BreezeGuestLayout from "@/Layouts/Guest.vue";
-import { Head, Link} from "@inertiajs/inertia-vue";
-//useform removed from the previous line
-
-export default {
-  components: {
-    BreezeButton,
-    BreezeGuestLayout,
-    Head,
-    Link
-    // useForm
-  },
-//  data: () => ({
-//     form :
-//     }),
-  methods: {
-
-    submit() {
-      return form.post(route("verification.send"));
-    },
-  },
-  props: {
-    status: String,
-  },
-  computed: {
-    verificationLinkSent: {
-      return: props.status === "verification-link-sent",
-    },
-  },
-};
-const form = useForm();
-// const verificationLinkSent = computed(() => props.status === 'verification-link-sent');
-</script>
-
 <template>
-  <BreezeGuestLayout>
-    <Head title="Email Verification" />
+  <authentication-card>
+    <template #logo>
+      <authentication-card-logo />
+    </template>
 
     <div class="mb-4 text-sm text-gray-600">
       Thanks for signing up! Before getting started, could you verify your email
@@ -46,8 +11,8 @@ const form = useForm();
     </div>
 
     <div
-      class="mb-4 font-medium text-sm text-green-600"
       v-if="verificationLinkSent"
+      class="mb-4 font-medium text-sm text-green-600"
     >
       A new verification link has been sent to the email address you provided
       during registration.
@@ -55,21 +20,57 @@ const form = useForm();
 
     <form @submit.prevent="submit">
       <div class="mt-4 flex items-center justify-between">
-        <BreezeButton
-          :class="{ 'opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
-          Resend Verification Email
-        </BreezeButton>
+        <v-btn :loading="form.processing"> Resend Verification Email </v-btn>
 
-        <Link
+        <inertia-link
           :href="route('logout')"
           method="post"
           as="button"
           class="underline text-sm text-gray-600 hover:text-gray-900"
-          >Log Out</Link
         >
+          Logout
+        </inertia-link>
       </div>
     </form>
-  </BreezeGuestLayout>
+  </authentication-card>
 </template>
+
+<script>
+import AuthenticationCard from "@/components/Auth/AuthenticationCard";
+import AuthenticationCardLogo from "@/components/Auth/AuthenticationCardLogo";
+import GuestLayout from "../../Layouts/GuestLayout";
+
+export default {
+  components: {
+    AuthenticationCard,
+    AuthenticationCardLogo,
+  },
+
+  layout: GuestLayout,
+
+  props: {
+    status: {
+      type: String,
+      default: "",
+    },
+  },
+
+  data() {
+    return {
+      form: this.$inertia.form(),
+    };
+  },
+
+  computed: {
+    verificationLinkSent() {
+      return this.status === "verification-link-sent";
+    },
+  },
+
+  methods: {
+    submit() {
+      this.form.post(this.route("verification.send"));
+    },
+  },
+};
+</script>

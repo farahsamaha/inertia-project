@@ -1,65 +1,80 @@
-<script>
-import BreezeButton from "@/Components/Button.vue";
-import BreezeGuestLayout from "@/Layouts/Guest.vue";
-import BreezeInput from "@/Components/Input.vue";
-import BreezeLabel from "@/Components/Label.vue";
-import BreezeValidationErrors from "@/Components/ValidationErrors.vue";
-// import { Head, useForm } from '@inertiajs/inertia-vue';
-
-export default {
-  components: {
-    BreezeButton,
-    BreezeGuestLayout,
-    BreezeInput,
-    BreezeLabel,
-    BreezeValidationErrors,
-    //  Head,
-    //  useForm
-  },
-  methods: {
-    submit() {
-      return form.post(route("password.confirm"), {
-        onFinish: () => form.reset(),
-      });
-    },
-  }
-}
-</script>
-
 <template>
-  <BreezeGuestLayout>
-    <Head title="Confirm Password" />
+  <authentication-card>
+    <template #logo>
+      <authentication-card-logo />
+    </template>
 
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="mb-4 text-subtitle-2">
       This is a secure area of the application. Please confirm your password
       before continuing.
     </div>
 
-    <BreezeValidationErrors class="mb-4" />
-
     <form @submit.prevent="submit">
-      <div>
-        <BreezeLabel for="password" value="Password" />
-        <BreezeInput
-          id="password"
-          type="password"
-          class="mt-1 block w-full"
-          v-model="form.password"
-          required
-          autocomplete="current-password"
-          autofocus
-        />
-      </div>
-
-      <div class="flex justify-end mt-4">
-        <BreezeButton
-          class="ml-4"
-          :class="{ 'opacity-25': form.processing }"
+      <v-row>
+        <v-col cols="12">
+          <v-text-field
+            v-model="form.password"
+            name="password"
+            type="password"
+            label="Password"
+            hide-details="auto"
+            autocomplete="current-password"
+            :error-messages="errors['password']"
+            outlined
+            required
+            autofocus
+          />
+        </v-col>
+      </v-row>
+      <v-col cols="12" class="d-flex align-center justify-end">
+        <v-btn
+          color="primary"
           :disabled="form.processing"
+          :loading="form.processing"
+          @click="submit"
         >
           Confirm
-        </BreezeButton>
-      </div>
+        </v-btn>
+      </v-col>
     </form>
-  </BreezeGuestLayout>
+  </authentication-card>
 </template>
+
+<script>
+import AuthenticationCard from "@/components/Auth/AuthenticationCard";
+import GuestLayout from "@/Layouts/GuestLayout";
+
+export default {
+  components: {
+    AuthenticationCard,
+  },
+
+  layout: GuestLayout,
+
+  data() {
+    return {
+      form: this.$inertia.form({
+        password: "",
+      }),
+    };
+  },
+
+  computed: {
+    errors() {
+      return this.$page.props.errors;
+    },
+
+    hasErrors() {
+      return Object.keys(this.errors).length > 0;
+    },
+  },
+
+  methods: {
+    submit() {
+      this.form.post(this.route("password.confirm"), {
+        onFinish: () => this.form.reset(),
+      });
+    },
+  },
+};
+</script>

@@ -24,10 +24,10 @@ Route::get('/', function () {
     ]);
 });
 
-// Route::get('test', function () {
-//     // return 'test';
-//     return Inertia::render('Test');
-// });
+Route::get('test', function () {
+    // return 'test';
+    return Inertia::render('Test');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
